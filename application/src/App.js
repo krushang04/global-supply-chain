@@ -233,10 +233,7 @@ const App = () => {
               shipments={data?.shipments}
             />
           )}
-          <div
-            className="desc"
-            style={{ width: isOn?.productCountryChart ? "25%" : "auto" }}
-          >
+          <div className="desc">
             This chart illustrates the quantities of product shipments to
             various countries, highlighting the distribution of shipments across
             different international destinations

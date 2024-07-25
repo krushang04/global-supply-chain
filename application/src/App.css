@@ -6,11 +6,24 @@ body {
   color: #333;
 }
 
+h1 {
+  margin: 0;
+  padding: 20px;
+}
+
+.App {
+  padding: 30px 0;
+  background: #f3f6fd;
+}
+
 .main-container {
-  padding: 8px;
-  border: 1px solid gray;
-  margin: 8px;
-  min-height: 150px;
+  box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2),
+    0 24px 20px -24px rgba(71, 82, 107, 0.1);
+  border-radius: 4px;
+  margin: 30px 100px;
+  padding: 30px;
+  border-radius: 10px;
+  background: #fff;
 }
 
 .container {
@@ -22,18 +35,24 @@ body {
 
 .chartDesc {
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .desc {
-  font-size: 18px;
+  padding-top: 5px;
+  font-size: 15px;
   line-height: 24px;
-  font-weight: 700;
   color: #2fa9de;
 }
 
 .title {
+  /* margin: 0; */
   color: #163e2e;
+}
+
+h2 {
+  margin: 0;
+  /* margin-bottom: 10px; */
 }
