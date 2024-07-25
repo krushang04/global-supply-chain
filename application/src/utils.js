@@ -44,3 +44,11 @@ export const loadData = async () => {
     throw error;
   }
 };
+
+export const numberSort = (rowA, rowB, id) => {
+  const valueA = rowA.original[id];
+  const valueB = rowB.original[id];
+  return valueA - valueB;
+};
+
+

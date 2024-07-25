@@ -1,17 +1,14 @@
 .chartContainer {
-  margin: 20px auto;
-  width: 80%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chartHeader {
-  font-size: 1.8rem;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-@media (max-width: 768px) {
-  .chartContainer {
-    width: 100%;
-  }
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  text-align: center;
 }
