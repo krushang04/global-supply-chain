@@ -41,7 +41,8 @@ thead {
 
 th {
   cursor: pointer;
-  background-color: gray;
+  background-color: #ffefef;
+  color: black;
 }
 
 th span {

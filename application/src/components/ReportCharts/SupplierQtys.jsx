@@ -35,7 +35,7 @@ const SupplierQtys = ({ suppliers, shipments }) => {
 
   const data = getTotalQuantityByCountry(suppliers, shipments);
   return (
-    <>
+    <div className="chartContainer">
       <BarChart width={1200} height={400} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="country">
@@ -51,9 +51,9 @@ const SupplierQtys = ({ suppliers, shipments }) => {
         </YAxis>
         <Tooltip />
         <Legend layout="horizontal" verticalAlign="top" align="right" />
-        <Bar dataKey="totalQuantity" fill="#82ca9d" />
+        <Bar dataKey="totalQuantity" fill="#4bc0c0" />
       </BarChart>
-    </>
+    </div>
   );
 };
 

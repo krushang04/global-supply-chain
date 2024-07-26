@@ -33,7 +33,7 @@ const ProductShipmentChart = ({ products, shipments }) => {
     return acc;
   }, []);
   return (
-    <div>
+    <div className="chartContainer">
       <BarChart
         width={1200}
         height={400}
@@ -54,7 +54,7 @@ const ProductShipmentChart = ({ products, shipments }) => {
         </YAxis>
         <Tooltip />
         <Legend layout="horizontal" verticalAlign="top" align="right" />
-        <Bar dataKey="Total Shipments" fill="#8884d8" />
+        <Bar dataKey="Total Shipments" fill="#4bc0c0" />
       </BarChart>
     </div>
   );

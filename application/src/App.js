@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useMemo } from "react";
-import Charts from "./components/ReportCharts/Charts";
-import Table from "./components/Table";
-import { loadData, numberSort } from "./utils";
-import QtyModeBarChart from "./components/ReportCharts/QtyModeBarChart";
-import ProductShipmentChart from "./components/ReportCharts/ProductShipmentChart";
-import SupplierQtys from "./components/ReportCharts/SupplierQtys";
-import ToggleSwitch from "./components/ToggleSwitch";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { loadData } from "./utils";
+import Navbar from "./components/Navbar";
 import "./App.css";
+
+// Lazy load components
+const AnalyticsChart = lazy(() => import("./components/AnalyticsChart"));
+const ProductTable = lazy(() => import("./components/ProductTable"));
+const SupplierTable = lazy(() => import("./components/SupplierTable"));
+const ShipmentTable = lazy(() => import("./components/ShipmentTable"));
+const NotFound = lazy(() => import("./components/NotFound"));
 
 const App = () => {
   const [data, setData] = useState({
@@ -28,56 +31,6 @@ const App = () => {
     loadData().then(setData);
   }, []);
 
-  const productColumns = useMemo(
-    () => [
-      { Header: "Product ID", accessor: "Product ID", sortType: numberSort },
-      {
-        Header: "Product Name",
-        accessor: "Product Name",
-      },
-      { Header: "Category", accessor: "Category" },
-      {
-        Header: "Unit Price",
-        accessor: "Unit Price",
-        sortType: numberSort,
-      },
-      {
-        Header: "Stock Quantity",
-        accessor: "Stock Quantity",
-        sortType: numberSort,
-      },
-    ],
-    []
-  );
-
-  const supplierColumns = useMemo(
-    () => [
-      { Header: "Supplier ID", accessor: "Supplier ID", sortType: numberSort },
-      {
-        Header: "Supplier Name",
-        accessor: "Supplier Name",
-      },
-      { Header: "Country", accessor: "Country" },
-      { Header: "Contact Person", accessor: "Contact Person" },
-      { Header: "Contact Email", accessor: "Contact Email" },
-    ],
-    []
-  );
-
-  const shipmentColumns = useMemo(
-    () => [
-      { Header: "Shipment ID", accessor: "Shipment ID", sortType: numberSort },
-      { Header: "Date", accessor: "Date" },
-      { Header: "Origin", accessor: "Origin" },
-      { Header: "Destination", accessor: "Destination" },
-      { Header: "Product ID", accessor: "Product ID", sortType: numberSort },
-      { Header: "Quantity", accessor: "Quantity", sortType: numberSort },
-      { Header: "Supplier ID", accessor: "Supplier ID", sortType: numberSort },
-      { Header: "Transport Mode", accessor: "Transport Mode" },
-    ],
-    []
-  );
-
   const handleToggleChange = (name, checked) => {
     setIsOn((prevState) => ({
       ...prevState,
@@ -87,159 +40,19 @@ const App = () => {
 
   return (
     <div className="App">
-      <div style={{ color: "#2fa9de" }}>
-        <center>
-          <h1>Supply Chain Table and Reports</h1>
-        </center>
-      </div>
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Product Data Table</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="productTable"
-          />
-        </div>
-        <div className="desc">This table displays all the product data</div>
-
-        {isOn?.productTable && (
-          <Table columns={productColumns} data={data.products} />
-        )}
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Supplier Data Table</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="supplierTable"
-          />
-        </div>
-        <div className="desc">This table displays all the supplier data</div>
-        {isOn?.supplierTable && (
-          <Table columns={supplierColumns} data={data.suppliers} />
-        )}
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Shipment Data Table</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="shipmentTable"
-          />
-        </div>
-        <div className="desc">This table displays all the shipment data</div>
-        {isOn?.shipmentTable && (
-          <Table columns={shipmentColumns} data={data.shipments} />
-        )}
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Shipments overs a time - Chart</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="lineChart"
-          />
-        </div>
-        <div className="chartDesc">
-          {isOn?.lineChart && (
-            <div style={{ padding: "20px" }}>
-              <Charts data={data?.shipments} />
-            </div>
-          )}
-          <div className="desc">
-            This chart illustrates the number of shipments completed compared to
-            specific dates, showing trends and variations in shipment volume
-            over the given time period.
-          </div>
-        </div>
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Transport Mode vs Quantity - Chart</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="qtyModeChart"
-          />
-        </div>
-        <div className="chartDesc">
-          {isOn?.qtyModeChart && <QtyModeBarChart data={data?.shipments} />}
-          <div className="desc">
-            This chart displays the quantities of shipments categorized by
-            transport mode, highlighting the distribution of shipments across
-            different transportation methods.
-          </div>
-        </div>
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Product Shipments - Chart</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="productShipmentChart"
-          />
-        </div>
-        <div className="chartDesc">
-          {isOn?.productShipmentChart && (
-            <ProductShipmentChart
-              products={data?.products}
-              shipments={data?.shipments}
-            />
-          )}
-          <div className="desc">
-            This chart displays the quantities of items shipped, showing the
-            distribution of different items by their shipment volumes
-          </div>
-        </div>
-      </div>
-
-      <div className="main-container">
-        <div className="container">
-          <div className="title">
-            <h2>Product Shipments to Country - Chart</h2>
-          </div>
-          <ToggleSwitch
-            isOn={isOn}
-            setIsOn={handleToggleChange}
-            name="productCountryChart"
-          />
-        </div>
-        <div className="chartDesc">
-          {isOn?.productCountryChart && (
-            <SupplierQtys
-              suppliers={data?.suppliers}
-              shipments={data?.shipments}
-            />
-          )}
-          <div className="desc">
-            This chart illustrates the quantities of product shipments to
-            various countries, highlighting the distribution of shipments across
-            different international destinations
-          </div>
-        </div>
-      </div>
+      <Router>
+        <Navbar />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<AnalyticsChart data={data} />} />
+            <Route path="/analytics" element={<AnalyticsChart data={data} />} />
+            <Route path="/product" element={<ProductTable data={data} />} />
+            <Route path="/supplier" element={<SupplierTable data={data} />} />
+            <Route path="/shipment" element={<ShipmentTable data={data} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </Router>
     </div>
   );
 };
