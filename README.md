@@ -24,6 +24,10 @@
 
     - SEO: 100
 
+    - ![alt text](image.png)
+
+    - Page Load Time: 1ms (Loading) + 708ms (Scripting) + 88ms (Rendering) + 55ms (painting) + 101ms(system) = 953 ms (< 1sec)
+
 # Performance Optimisations
 
     1. Lazy Loading: By utilizing React.lazy for importing components, I ensured that components are loaded only when they are needed. This prevents the entire application from being bundled and loaded all at once, reducing the initial load time. Components such as AnalyticsChart, ProductTable, SupplierTable, ShipmentTable, and NotFound are now loaded on-demand, which helps in managing the application's resource usage more efficiently.
